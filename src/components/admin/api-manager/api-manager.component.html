@@ -1,0 +1,71 @@
+<div class="space-y-6">
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-semibold text-gray-900 dark:text-white">API Key Management</h3>
+      <button (click)="showForm.set(!showForm())" class="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700">
+        {{ showForm() ? 'Cancel' : 'Generate New Key' }}
+      </button>
+    </div>
+    
+    @if(showForm()) {
+      <form [formGroup]="apiKeyForm" (ngSubmit)="createApiKey()" class="p-4 mt-4 border rounded-md dark:border-gray-700 space-y-4">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Key Name</label>
+          <input type="text" id="name" formControlName="name" class="w-full mt-1 input-field" placeholder="e.g., Mobile App Key">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Permissions</label>
+          <select formControlName="permissions" class="w-full mt-1 input-field">
+            <option value="read-only">Read-Only</option>
+            <option value="read-write">Read/Write</option>
+          </select>
+        </div>
+        <div>
+          <label for="expiresAt" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Expiration Date (Optional)</label>
+          <input type="date" id="expiresAt" formControlName="expiresAt" class="w-full mt-1 input-field">
+        </div>
+        <button type="submit" [disabled]="apiKeyForm.invalid" class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 disabled:opacity-50">Create Key</button>
+      </form>
+    }
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+    <h4 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Active Keys</h4>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th class="px-6 py-3">Name</th>
+            <th class="px-6 py-3">Key (Partial)</th>
+            <th class="px-6 py-3">Permissions</th>
+            <th class="px-6 py-3">Created</th>
+            <th class="px-6 py-3">Expires</th>
+            <th class="px-6 py-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(key of apiKeys(); track key.id) {
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ key.name }}</td>
+              <td class="px-6 py-4 font-mono">{{ key.key.substring(0, 10) }}...</td>
+              <td class="px-6 py-4">
+                @for(perm of key.permissions; track perm) {
+                  <span class="px-2 py-1 mr-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">{{ perm }}</span>
+                }
+              </td>
+              <td class="px-6 py-4">{{ key.createdAt | date:'short' }}</td>
+              <td class="px-6 py-4">{{ key.expiresAt ? (key.expiresAt | date:'shortDate') : 'Never' }}</td>
+              <td class="px-6 py-4">
+                <button (click)="revokeKey(key.id)" class="px-3 py-1 text-xs font-medium text-white bg-red-600 rounded-md hover:bg-red-700">Revoke</button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="px-6 py-4 text-center">No API keys generated yet.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

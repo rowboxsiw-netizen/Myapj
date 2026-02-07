@@ -1,0 +1,43 @@
+<div class="flex h-screen bg-gray-100 dark:bg-gray-900">
+  <!-- Sidebar -->
+  <div class="flex flex-col text-white bg-gray-800 dark:bg-gray-950 transition-all duration-300" [class.w-64]="sidebarOpen()" [class.w-20]="!sidebarOpen()">
+    <div class="flex items-center justify-between h-16 px-4 border-b border-gray-700">
+      <span class="text-2xl font-bold" [class.hidden]="!sidebarOpen()">Admin</span>
+      <button (click)="toggleSidebar()" class="p-2 rounded-md hover:bg-gray-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+    <nav class="flex-grow">
+      <a [routerLink]="['statistics']" routerLinkActive="bg-primary-600" class="flex items-center px-4 py-3 mt-2 text-gray-300 hover:bg-gray-700">
+        <ion-icon name="stats-chart" class="text-2xl"></ion-icon>
+        <span class="mx-4 font-medium" [class.hidden]="!sidebarOpen()">Statistics</span>
+      </a>
+      <a [routerLink]="['users']" routerLinkActive="bg-primary-600" class="flex items-center px-4 py-3 mt-2 text-gray-300 hover:bg-gray-700">
+        <ion-icon name="people" class="text-2xl"></ion-icon>
+        <span class="mx-4 font-medium" [class.hidden]="!sidebarOpen()">Users</span>
+      </a>
+      <a [routerLink]="['api-keys']" routerLinkActive="bg-primary-600" class="flex items-center px-4 py-3 mt-2 text-gray-300 hover:bg-gray-700">
+        <ion-icon name="key" class="text-2xl"></ion-icon>
+        <span class="mx-4 font-medium" [class.hidden]="!sidebarOpen()">API Keys</span>
+      </a>
+    </nav>
+    <div class="p-4 border-t border-gray-700">
+      <button (click)="authService.logout()" class="w-full flex items-center justify-center px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700">
+        <ion-icon name="log-out-outline" class="text-xl"></ion-icon>
+        <span class="mx-2 font-medium" [class.hidden]="!sidebarOpen()">Logout</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <main class="flex-1 flex flex-col overflow-hidden">
+    <header class="flex items-center justify-between h-16 px-6 bg-white dark:bg-gray-800 border-b dark:border-gray-700">
+      <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Dashboard</h2>
+    </header>
+    <div class="flex-1 p-6 overflow-y-auto">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

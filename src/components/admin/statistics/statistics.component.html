@@ -1,0 +1,28 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <!-- Total Users Card -->
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+    <div class="flex items-center">
+      <div class="p-3 bg-primary-100 dark:bg-primary-900 rounded-full">
+        <ion-icon name="people-outline" class="text-3xl text-primary-500"></ion-icon>
+      </div>
+      <div class="ml-4">
+        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Registered Users</p>
+        @if (userCount$ | async; as count) {
+          <p class="text-3xl font-bold text-gray-900 dark:text-white">{{ count }}</p>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Other stats cards can be added here -->
+
+</div>
+
+<div class="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+  <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Daily Registrations</h3>
+  <div class="relative h-96">
+    <canvas #registrationChart></canvas>
+  </div>
+  <!-- This is to trigger the observable -->
+  @if(dailyRegistrations$ | async){ }
+</div>

@@ -1,0 +1,107 @@
+<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white">API Documentation</h1>
+    <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+      Access user data programmatically using our REST API.
+    </p>
+    <a [routerLink]="['/register']" class="mt-4 inline-block text-primary-600 hover:underline dark:text-primary-400">Back to Registration</a>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md mb-8">
+    <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Authentication</h2>
+    <p class="mb-4 text-gray-700 dark:text-gray-300">
+      Our API uses API keys for authentication. You can obtain an API key from the admin dashboard. All API requests must include the API key. In this example, we use Firebase's ability to authenticate via a query parameter for simplicity.
+    </p>
+    <p class="text-gray-700 dark:text-gray-300">
+      Append <code class="bg-gray-200 dark:bg-gray-700 p-1 rounded text-sm font-mono">?auth=YOUR_API_KEY</code> to the end of the request URL.
+    </p>
+     <div class="mt-4 p-4 border-l-4 border-yellow-400 bg-yellow-50 dark:bg-yellow-900 dark:border-yellow-600">
+      <p class="text-yellow-800 dark:text-yellow-200"><strong class="font-bold">Note:</strong> For this public demo, the API key is not enforced by security rules. In a production environment, you would configure Firebase Security Rules to validate the provided auth token/key.</p>
+    </div>
+  </div>
+
+  <!-- API Endpoints -->
+  <div class="space-y-8">
+    <!-- Get User Count -->
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
+      <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Get Total User Count</h3>
+      <p class="mb-4 text-gray-700 dark:text-gray-300">Returns the total number of registered users.</p>
+      <div class="mb-4">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">GET</span>
+        <code class="ml-2 bg-gray-200 dark:bg-gray-700 p-2 rounded text-sm font-mono">/users.json?shallow=true</code>
+      </div>
+
+      <div class="bg-gray-900 rounded-lg mt-4">
+        <div class="flex p-2 bg-gray-700 rounded-t-lg">
+          <button (click)="selectLang('javascript')" [class.bg-gray-900]="selectedLang() === 'javascript'" class="px-4 py-1 text-sm text-white rounded">JavaScript</button>
+          <button (click)="selectLang('python')" [class.bg-gray-900]="selectedLang() === 'python'" class="px-4 py-1 text-sm text-white rounded">Python</button>
+          <button (click)="selectLang('php')" [class.bg-gray-900]="selectedLang() === 'php'" class="px-4 py-1 text-sm text-white rounded">PHP</button>
+        </div>
+        <pre class="p-4 text-sm text-white overflow-x-auto"><code class="language-js">
+@if(selectedLang() === 'javascript') {
+const apiKey = 'YOUR_API_KEY';
+const url = '{{databaseURL}}/users.json?shallow=true&auth=' + apiKey;
+
+fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    const userCount = Object.keys(data).length;
+    console.log('Total Users:', userCount);
+  })
+  .catch(error => console.error('Error:', error));
+}
+@if(selectedLang() === 'python') {
+import requests
+import json
+
+api_key = 'YOUR_API_KEY'
+url = '{{databaseURL}}/users.json?shallow=true&auth=' + api_key
+
+response = requests.get(url)
+if response.status_code == 200:
+    data = response.json()
+    user_count = len(data)
+    print(f"Total Users: {user_count}")
+else:
+    print(f"Error: {response.status_code}")
+}
+@if(selectedLang() === 'php') {
+$apiKey = 'YOUR_API_KEY';
+$url = '{{databaseURL}}/users.json?shallow=true&auth=' . $apiKey;
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$response = curl_exec($ch);
+curl_close($ch);
+
+$data = json_decode($response, true);
+$userCount = count($data);
+echo "Total Users: " . $userCount;
+}
+        </code></pre>
+      </div>
+    </div>
+    
+    <!-- Get User List -->
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
+      <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Get All Users</h3>
+      <p class="mb-4 text-gray-700 dark:text-gray-300">Returns a list of all registered users with their details.</p>
+      <div class="mb-4">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">GET</span>
+        <code class="ml-2 bg-gray-200 dark:bg-gray-700 p-2 rounded text-sm font-mono">/users.json</code>
+      </div>
+      <p class="text-sm text-gray-600 dark:text-gray-400">Example response:</p>
+      <pre class="p-4 bg-gray-100 dark:bg-gray-700 rounded-md text-xs mt-2 overflow-x-auto"><code class="language-json">
+{
+  "userId1": {
+    "name": "John Doe",
+    "email": "john@example.com",
+    ...
+  },
+  "userId2": { ... }
+}
+      </code></pre>
+    </div>
+  </div>
+</div>
