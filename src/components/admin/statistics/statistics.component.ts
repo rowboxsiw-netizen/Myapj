@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, ViewChild, ElementRef, afterNextRender } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, ViewChild, ElementRef, afterNextRender, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -12,6 +12,7 @@ declare var Chart: any;
   imports: [AsyncPipe],
   templateUrl: './statistics.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class StatisticsComponent {
   private userService = inject(UserService);

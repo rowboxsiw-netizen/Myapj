@@ -18,7 +18,7 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
   private firebaseService = inject(FirebaseService);
   private router = inject(Router);
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  public currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
   constructor() {
