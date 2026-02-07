@@ -37,9 +37,9 @@
           <button (click)="selectLang('python')" [class.bg-gray-900]="selectedLang() === 'python'" class="px-4 py-1 text-sm text-white rounded">Python</button>
           <button (click)="selectLang('php')" [class.bg-gray-900]="selectedLang() === 'php'" class="px-4 py-1 text-sm text-white rounded">PHP</button>
         </div>
-        <pre class="p-4 text-sm text-white overflow-x-auto"><code class="language-js">
-@switch (selectedLang()) {
-  @case ('javascript') {
+        @switch (selectedLang()) {
+          @case ('javascript') {
+            <pre class="p-4 text-sm text-white overflow-x-auto"><code class="language-js">
 const apiKey = 'YOUR_API_KEY';
 const url = '{{databaseURL}}/users.json?shallow=true&auth=' + apiKey;
 
@@ -50,8 +50,10 @@ fetch(url)
     console.log('Total Users:', userCount);
   })
   .catch(error => console.error('Error:', error));
-  }
-  @case ('python') {
+            </code></pre>
+          }
+          @case ('python') {
+            <pre class="p-4 text-sm text-white overflow-x-auto"><code class="language-python">
 import requests
 import json
 
@@ -65,8 +67,10 @@ if response.status_code == 200:
     print(f"Total Users: {user_count}")
 else:
     print(f"Error: {response.status_code}")
-  }
-  @case ('php') {
+            </code></pre>
+          }
+          @case ('php') {
+            <pre class="p-4 text-sm text-white overflow-x-auto"><code class="language-php">
 $apiKey = 'YOUR_API_KEY';
 $url = '{{databaseURL}}/users.json?shallow=true&auth=' . $apiKey;
 
@@ -79,9 +83,9 @@ curl_close($ch);
 $data = json_decode($response, true);
 $userCount = count($data);
 echo "Total Users: " . $userCount;
-  }
-}
-        </code></pre>
+            </code></pre>
+          }
+        }
       </div>
     </div>
     
